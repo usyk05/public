@@ -922,6 +922,8 @@ const char *YSGLSL_variColorPerPixShading3DDrawingFragmentShader[]=
 	"varying HIGHP vec3 shadowCoord[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];\n",
 	"\n",
 	"\n",
+	"uniform MIDP float shadowMapStrength;\n",
+	"\n",
 	"uniform MIDP float lightEnabled[YSGLSL_MAX_NUM_LIGHT];\n",
 	"uniform HIGHP vec4 lightPos[YSGLSL_MAX_NUM_LIGHT];\n",
 	"uniform LOWP vec3 lightColor[YSGLSL_MAX_NUM_LIGHT];\n",
@@ -995,9 +997,9 @@ const char *YSGLSL_variColorPerPixShading3DDrawingFragmentShader[]=
 	"\n",
 	"	// If either one of inShadow0 or inShadow1 is 1, specular and diffuse must be off (lightCoeff=0)\n",
 	"#if 3<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE\n",
-	"	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1])*(1.0-inShadow[2]);\n",
+	"	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength)*(1.0-inShadow[2]*shadowMapStrength);\n",
 	"#elif 2<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE\n",
-	"	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1]);\n",
+	"	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength);\n",
 	"#endif\n",
 	"\n",
 	"	LOWP  vec4 accumColor=YsCalculateStandardLighting(color,nomLocal,vecToCamera,lightCoeff);\n",
@@ -1062,7 +1064,7 @@ const char *YSGLSL_variColorPerPixShading3DDrawingFragmentShader[]=
 	"\n",
 	"}\n",
 };
-const int YSGLSL_variColorPerPixShading3DDrawingFragmentShader_nLine=288;
+const int YSGLSL_variColorPerPixShading3DDrawingFragmentShader_nLine=290;
 const char *YSGLSL_variColorBillBoard3DDrawingFragmentShader[]=
 {
 	"#define YSGLSL_TEX_TYPE_NONE                0\n",

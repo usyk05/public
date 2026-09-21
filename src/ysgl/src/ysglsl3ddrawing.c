@@ -143,6 +143,7 @@ struct YsGLSL3DRenderer
 	GLfloat shadowMapTransform[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE][16];
 	GLfloat lightDistOffset[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];
 	GLfloat lightDistScale[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];
+	GLfloat shadowMapStrength;
 
 	GLint uniformUseShadowMapPos;
 	GLint uniformTestShadowMapPos;
@@ -150,6 +151,7 @@ struct YsGLSL3DRenderer
 	GLint uniformShadowMapTexturePos;
 	GLint uniformLightDistOffsetPos;
 	GLint uniformLightDistScalePos;
+	GLint uniformShadowMapStrengthPos;
 
 
 
@@ -271,6 +273,7 @@ static struct YsGLSL3DRenderer *YsGLSLCreateAndInitialize3DRenderer(void)
 			}
 			renderer->lightDistOffset[i]=0.001f;
 			renderer->lightDistScale[i]=1.01f;
+			renderer->shadowMapStrength=1.0f;
 
 			renderer->uniformUseShadowMapPos=-1;
 			renderer->uniformTestShadowMapPos=-1;
@@ -278,6 +281,7 @@ static struct YsGLSL3DRenderer *YsGLSLCreateAndInitialize3DRenderer(void)
 			renderer->uniformShadowMapTexturePos=-1;
 			renderer->uniformLightDistOffsetPos=-1;
 			renderer->uniformLightDistScalePos=-1;
+			renderer->uniformShadowMapStrengthPos=-1;
 		}
 	}
 
@@ -331,6 +335,7 @@ static int YsGLSLGetShadowMapUniformPos(struct YsGLSL3DRenderer *renderer,const 
 	renderer->uniformShadowMapTexturePos=YsGLSLGetUniformLocation(&ec,calledFrom,renderer->programId,"shadowMapTexture");
 	renderer->uniformLightDistOffsetPos=YsGLSLGetUniformLocation(&ec,calledFrom,renderer->programId,"lightDistOffset");
 	renderer->uniformLightDistScalePos=YsGLSLGetUniformLocation(&ec,calledFrom,renderer->programId,"lightDistScale");
+	renderer->uniformShadowMapStrengthPos=YsGLSLGetUniformLocation(&ec,calledFrom,renderer->programId,"shadowMapStrength");
 
 	return ec;
 }
@@ -1206,6 +1211,10 @@ static void YsGLSL3DRendererInitializeUniform(struct YsGLSL3DRenderer *renderer)
 		{
 			glUniform1fv(renderer->uniformLightDistScalePos,YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE,renderer->lightDistScale);
 		}
+		if(0<=renderer->uniformShadowMapStrengthPos)
+		{
+			glUniform1f(renderer->uniformShadowMapStrengthPos,renderer->shadowMapStrength);
+		}
 	}
 
 
@@ -1605,6 +1614,19 @@ YSRESULT YsGLSLSet3DRendererUniformShadowMapMode(struct YsGLSL3DRenderer *render
 		{
 			glUniform1fv(renderer->uniformTestShadowMapPos,YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE,renderer->testShadowMap);
 		}
+		return YSOK;
+	}
+	return YSERR;
+}
+
+YSRESULT YsGLSLSet3DRendererUniformShadowMapStrength(struct YsGLSL3DRenderer *renderer,GLfloat strength)
+{
+	if(NULL!=renderer && 0<=renderer->uniformShadowMapStrengthPos)
+	{
+		if(strength<0.0f) strength=0.0f;
+		if(1.0f<strength) strength=1.0f;
+		renderer->shadowMapStrength=strength;
+		glUniform1f(renderer->uniformShadowMapStrengthPos,renderer->shadowMapStrength);
 		return YSOK;
 	}
 	return YSERR;

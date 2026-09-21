@@ -15,6 +15,8 @@ varying  LOWP  vec4 color;
 #include "YS_GLSL_SHADOWMAP_UNIFORM.glsl"
 #include "YS_GLSL_SHADOWMAP_VARYING.glsl"
 
+uniform MIDP float shadowMapStrength;
+
 #include "YS_GLSL_STANDARD_LIGHTING.glsl"
 
 // #define ENABLE_SHADOW_TEST
@@ -55,9 +57,9 @@ void main()
 
 	// If either one of inShadow0 or inShadow1 is 1, specular and diffuse must be off (lightCoeff=0)
 #if 3<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE
-	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1])*(1.0-inShadow[2]);
+	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength)*(1.0-inShadow[2]*shadowMapStrength);
 #elif 2<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE
-	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1]);
+	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength);
 #endif
 
 	LOWP  vec4 accumColor=YsCalculateStandardLighting(color,nomLocal,vecToCamera,lightCoeff);

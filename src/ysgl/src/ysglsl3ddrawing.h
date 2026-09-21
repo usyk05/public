@@ -321,6 +321,7 @@ YSRESULT YsGLSLSet3DRendererUniformMarkerType(struct YsGLSL3DRenderer *renderer,
    Shadow map ID 1 is for covering wider area away from the view point.
 */
 YSRESULT YsGLSLSet3DRendererUniformShadowMapMode(struct YsGLSL3DRenderer *renderer,int shadowMapId,int shadowMapMode);
+YSRESULT YsGLSLSet3DRendererUniformShadowMapStrength(struct YsGLSL3DRenderer *renderer,GLfloat strength);
 
 /*! This function sets shadow-map texture, n for GL_TEXTUREn. */
 YSRESULT YsGLSLSet3DRendererUniformShadowMapTexture(struct YsGLSL3DRenderer *renderer,int shadowMapId,int textureIdent);

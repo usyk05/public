@@ -147,6 +147,8 @@ uniform MIDP float lightDistOffset[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];
 varying HIGHP vec3 shadowCoord[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];
 
 
+uniform MIDP float shadowMapStrength;
+
 uniform MIDP float lightEnabled[YSGLSL_MAX_NUM_LIGHT];
 uniform HIGHP vec4 lightPos[YSGLSL_MAX_NUM_LIGHT];
 uniform LOWP vec3 lightColor[YSGLSL_MAX_NUM_LIGHT];
@@ -220,9 +222,9 @@ void main()
 
 	// If either one of inShadow0 or inShadow1 is 1, specular and diffuse must be off (lightCoeff=0)
 #if 3<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE
-	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1])*(1.0-inShadow[2]);
+	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength)*(1.0-inShadow[2]*shadowMapStrength);
 #elif 2<=YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE
-	MIDP  float lightCoeff=(1.0-inShadow[0])*(1.0-inShadow[1]);
+	MIDP  float lightCoeff=(1.0-inShadow[0]*shadowMapStrength)*(1.0-inShadow[1]*shadowMapStrength);
 #endif
 
 	LOWP  vec4 accumColor=YsCalculateStandardLighting(color,nomLocal,vecToCamera,lightCoeff);
