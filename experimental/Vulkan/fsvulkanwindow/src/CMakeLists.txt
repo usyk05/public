@@ -34,7 +34,7 @@ if(MSVC)
 	list(APPEND LIB_DEPENDENCY ${Vulkan_LIBRARY})
 	list(APPEND ADDITIONAL_HEADER_PATH ${Vulkan_INCLUDE_DIR})
 elseif(APPLE)
-	# find_library(MoltenVK "/Users/soji/Vulkan/MoltenVK/MoltenVK/macOS/MoltenVK.framework") cannot find... 
+	# find_library(MoltenVK "$VULKAN_SDK/macOS/MoltenVK.framework") cannot find...
 	# mark_as_advanced(MoltenVK)
 	find_library(COCOA_LIB Cocoa)
 	mark_as_advanced(COCOA_LIB)

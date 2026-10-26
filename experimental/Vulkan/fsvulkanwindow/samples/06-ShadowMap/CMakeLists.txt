@@ -8,7 +8,7 @@ set(VULKAN_DLL_DESTINATION "$<TARGET_FILE_DIR:${TARGET_NAME}>")
 set(VULKAN_DLL_SOURCE)
 if(APPLE)
 	set(VULKAN_DLL_SOURCE ${VULKAN_SDK}/lib/libMoltenVK.dylib ${VULKAN_SDK}/lib/libVkLayer_core_validation.dylib)
-	# set(VULKAN_DLL_SOURCE /Users/soji/Vulkan/MoltenVK/MoltenVK/macOS/libMoltenVK.dylib)
+	# set(VULKAN_DLL_SOURCE $VULKAN_SDK/macOS/libMoltenVK.dylib)
 endif()
 
 if(VULKAN_DLL_SOURCE)

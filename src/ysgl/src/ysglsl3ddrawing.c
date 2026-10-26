@@ -1027,7 +1027,7 @@ static void YsGLSL3DRendererInitializeUniform(struct YsGLSL3DRenderer *renderer)
 	}
 	if(0<=renderer->uniformTextureSampleCoeff)
 	{
-		glUniform1f(renderer->uniformTextureSampleCoeff,0);
+		glUniform3f(renderer->uniformTextureSampleCoeff,0.0f,0.0f,0.0f);
 	}
 	if(0<=renderer->uniformUseNegativeOneToPositiveOnTexCoordPos)
 	{
@@ -1059,7 +1059,7 @@ static void YsGLSL3DRendererInitializeUniform(struct YsGLSL3DRenderer *renderer)
 
 	if(0<=renderer->uniformFogEnabledPos)
 	{
-		glUniform1i(renderer->uniformFogEnabledPos,0);
+		glUniform1f(renderer->uniformFogEnabledPos,0.0f);
 	}
 	if(0<=renderer->uniformFogDensityPos)
 	{

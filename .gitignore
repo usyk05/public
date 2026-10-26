@@ -4,3 +4,25 @@ __pycache__
 fp-info-cache
 ir_receiver-cache.lib
 build
+
+# Generated local builds and binaries
+/build/
+**/build/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+*.o
+*.a
+*.dylib
+*.so
+*.dll
+*.exe
+*.app/
+*.dSYM/
+
+# Raw GPU captures and transient local logs
+*.rgba
+*.depth
+*.stencil
+*.log
+.DS_Store
